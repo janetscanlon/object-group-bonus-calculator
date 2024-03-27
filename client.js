@@ -63,31 +63,51 @@ function calculateIndividualEmployeeBonus( employee ) {
   }else if(employee.reviewRating === 5){
     bonusPercentage = 0.10;
   }
+// if employeeNumber is 4 digits long add 0.05 percent to bonusPercentage 
+  if (employee.employeeNumber.length === 4){
+    bonusPercentage += 0.05;
+  }
 
-  if (employee.employeeNumber)
-  // const calculate = {
-  //   name: employee.name,
+//IF employee.annualSalary > 65,000 subtrack 0.01 percent
+    
+  if(Number(employee.annualSalary) > 65000){
+    bonusPercentage -= 0.01;
+  }
 
-  //   bonusPercentage: bonusPercentage,
+//IF bonusPercentage > 0.13 bonusPercentage = 0.13 ELSE IF bonusPercentage < 0 bonasPercentage = 0
+if(bonusPercentage > 0.13){
+  bonusPercentage = 0.13;
+}else if(bonusPercentage < 0){
+  bonusPercentage = 0;
+}
+// totalBonus = base annual * bonusPercentage [must calculate first, total compensation is dependent on total bonus]
+let totalBonus = Number(employee.annualSalary) * bonusPercentage; 
 
-  //   totalCompensation: 
+
+// totalCompensation = base annual + bonus 
+let totalCompensation = Number(employee.annualSalary) + totalBonus;
 
 
-    // totalCompensation:
+//create new object
+let processedEmployee = {
+  name: employee.name,
+  bonusPercentage: bonusPercentage,
+  totalCompensation: totalCompensation,
+  totalBonus: totalBonus
+}
 
-    // totalBonus:
-
-  return bonusPercentage;
+  return processedEmployee;
 }
 
   // return new object with bonus results
 
-  let testEmployee = {
-    name: 'Atticus',
-    employeeNumber: '2405',
-    annualSalary: '47000',
-    reviewRating: 3
-  }
+// loop through the employees array and console.log the results of each iteration. 
+for(let employee of employees){
+  console.log(calculateIndividualEmployeeBonus(employee));
+}
 
 
-console.log(calculateIndividualEmployeeBonus(testEmployee));
+// what information is dependent on what? 
+//total comp === annualSalary + totalBonus
+//totalBonus === bonusPercentage + annualSalary 
+//bonusPercentage === 
